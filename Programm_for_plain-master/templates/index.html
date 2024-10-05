@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Расписание самолетов</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/menu.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/table.css"/>
+
+
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a class='active' href={{ url_for("index") }}>Редактор знаний</a></li>
+            <li><a href={{ url_for("data_editor") }}>Редактор данных</a></li>
+            <li><a href={{ url_for("problem_solver") }}>Решатель задач</a></li>
+        </ul>
+    </nav>
+</header>
+<div>
+    <h2>База городов:</h2>
+    <form>
+        <label for="city">Город:</label>
+        <input type="text" id="city" name="city" required>
+        <input type="submit" class="button" id="addCity" name='addCity' value="Добавить">
+        <input type="submit" class="button" id="delCity" name='delCity' value="Удалить">
+    </form>
+
+    <div class="container">
+        <table class="fixed-table">
+            <thead>
+            <tr>
+                <th>Города</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for city in cities %}
+                <tr>
+                    <td>{{ city }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div>
+    <h2>База маршрутов:</h2>
+
+    <form>
+        <label for="departure">Место отправления:</label>
+        <input type="text" id="departure" name="departure" required>
+        <label for="arrival">Место прибытия:</label>
+        <input type="text" id="arrival" name="arrival" required>
+        <label for="distance">Дальность полета:</label>
+        <input style="width: 80px;" type="number" min=0 id="distance" name="distance" required>
+        <input type="submit" class="button" id="addRoute" name='addRoute' value="Добавить">
+        <input type="submit" class="button" id="delRoute" name='delRoute' value="Удалить">
+    </form>
+
+    <div class="container">
+        <table class="fixed-table">
+            <thead>
+            <tr>
+                <th>Место отправления</th>
+                <th>Место прибытия</th>
+                <th>Дальность полета</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for route in routes %}
+                <tr>
+                    <td>{{ route.start_city }}</td>
+                    <td>{{ route.end_city }}</td>
+                    <td>{{ route.distance }} км</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div>
+    <h2>База типов самолета:</h2>
+
+    <form>
+        <label for="planeType">Тип самолета:</label>
+        <input style="width: 150px;" type="text" id="planeType" name="planeType" required>
+        <label for="speed">Крейсерская скорость:</label>
+        <input style="width: 80px;margin-right: 0;" type="number" min=0 id="speedFrom" name="speedFrom" required>
+        <input style="width: 80px;" type="number" min=0 id="speedTo" name="speedTo" required>
+        <label for="range">Дальность полета:</label>
+        <input style="width: 80px;margin-right: 0;" type="number" min=0 id="rangeFrom" name="rangeFrom" required>
+        <input style="width: 80px;" type="number" min=0 id="rangeTo" name="rangeTo" required>
+        <input type="submit" class="button" id="addPlaneType" name='addPlaneType' value="Добавить">
+        <input type="submit" class="button" id="delPlaneType" name='delPlaneType' value="Удалить">
+
+    </form>
+
+    <div class="container">
+        <table class="fixed-table">
+            <thead>
+            <tr>
+                <th>Тип самолета</th>
+                <th>Крейсерская скорость</th>
+                <th>Дальность полета</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for plane_type in plane_types %}
+                <tr>
+                    <td>{{ plane_type.plane_type_name }}</td>
+                    <td>{{ plane_type.plane_speed_min }} - {{ plane_type.plane_speed_max }} км/ч</td>
+                    <td>{{ plane_type.plane_distance_min }} - {{ plane_type.plane_distance_max }} км</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<form style="all: unset;">
+    <input style="float: right; color: white; background-color: darkred; margin-bottom: 10px;" type="submit"
+           class="button" name="refill" value="Перезаполнить">
+</form>
+</body>
+</html>

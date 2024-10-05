@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Расписание самолетов</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/menu.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/table.css"/>
+
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a href={{ url_for("index") }}>Редактор знаний</a></li>
+            <li><a class='active' href={{ url_for("data_editor") }}>Редактор данных</a></li>
+            <li><a href="{{ url_for("problem_solver") }}">Решатель задач</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div>
+    <h2>База самолетов:</h2>
+
+    <form>
+        <label for="plane-number">Номер самолета:</label>
+        <input style="width: 60px;" type="text" id="plane-number" name="plane-number" required>
+
+        <label for="plane-type">Тип самолета:</label>
+        <select style="width: 185px;" id="plane-type" name="plane-type" required>
+            <option value="" disabled>Выберите</option>
+            {% for plane in plane_types %}
+                <option value="{{ loop.index - 1 }}">
+                    {{ plane.plane_type_name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="speed">Крейсерская скорость:</label>
+        <input style="width: 80px;" type="number" min=0 id="speed" name="speed" required>
+        <label for="distance">Дальность полета:</label>
+        <input style="width: 80px;" type="number" min=0 id="distance" name="distance" required>
+        <input type="submit" class="button" id="addPlane" name='addPlane' value="Добавить">
+        <input type="submit" class="button" id="delPlane" name='delPlane' value="Удалить">
+    </form>
+
+    <div class="container">
+        <table class="fixed-table">
+            <thead>
+            <tr>
+                <th>Номер самолета</th>
+                <th>Тип самолета</th>
+                <th>Крейсерская скорость</th>
+                <th>Дальность полета</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for plane in planes %}
+                <tr>
+                    <td>{{ plane.plane_name }}</td>
+                    <td>{{ plane.plane_type.plane_type_name }}</td>
+                    <td>{{ plane.plane_speed }} км/ч</td>
+                    <td>{{ plane.plane_distance }} км</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<div>
+    <h2>База маршрутов полетов:</h2>
+
+    <form>
+        <label for="route">Маршруты полетов:</label>
+        <select id="route" name="route" required>
+            <option value="" disabled>Выберите маршрут</option>
+            {% for route in all_routes %}
+                <option value={{ loop.index - 1 }}>
+                    {{ route.start_city }} - {{ route.end_city }} ({{ route.distance }} км)
+                </option>
+            {% endfor %}
+        </select>
+        <input type="submit" class="button" id='addTravelTrip' name='addTravelTrip' value="Добавить">
+        <input type="submit" class="button" id='delTravelTrip' name='delTravelTrip' value="Удалить">
+    </form>
+    <div class="container">
+        <table class="fixed-table">
+            <thead>
+            <tr>
+                <th>Маршруты полетов</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for route in current_routes %}
+                <tr>
+                    <td>{{ route.start_city }} - {{ route.end_city }} ({{ route.distance }} км)</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{#<div>#}
+{#    <form>#}
+{#        <label for="route">Маршрут полета:</label>#}
+{#        <select id="route" name="route">#}
+{#            <option value="route1">Маршрут 1</option>#}
+{#            <option value="route2">Маршрут 2</option>#}
+{#            <option value="route3">Маршрут 3</option>#}
+{#        </select>#}
+{#        <label for="start-time">Начало полета:</label>#}
+{#        <input type="datetime-local" id="start-time" name="start-time">#}
+{#        <label for="end-time">Конец полета:</label>#}
+{#        <input type="datetime-local" id="end-time" name="end-time">#}
+{#        <button type="submit">Добавить</button>#}
+{#    </form>#}
+{#</div>#}
+
+
+</body>
+</html>
